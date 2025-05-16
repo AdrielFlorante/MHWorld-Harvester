@@ -1,0 +1,93 @@
+import java.util.*;
+
+public class FarmingState {
+    public final List<CropState> cropStates;
+    public int cycle;
+    public int totalCost;
+    public int maxCycles;
+
+    public List<Fertilizer> plan = new ArrayList<>();
+    public Fertilizer lastApplied;
+
+    public FarmingState(List<CropState> cropStates, int cycle, int totalCost, int maxCycles) {
+        this.cropStates = cropStates;
+        this.cycle = cycle;
+        this.totalCost = totalCost;
+        this.maxCycles = maxCycles;
+    }
+
+    public FarmingState copy() {
+        List<CropState> newCrops = new ArrayList<>();
+        for (CropState cs : cropStates) {
+            newCrops.add(cs.copy());
+        }
+        FarmingState fs = new FarmingState(newCrops, cycle, totalCost, maxCycles);
+        fs.plan = new ArrayList<>(this.plan);
+        fs.lastApplied = this.lastApplied;
+        return fs;
+    }
+
+    public int getTotalYield() {
+        return cropStates.stream().mapToInt(cs -> cs.yield).sum();
+    }
+
+    public void advanceCycle() {
+        cycle++;
+        for (CropState cs : cropStates) {
+            // Fertilizer logic here (not shown)
+            cs.timeLeft--;
+            if (cs.timeLeft <= 0) {
+                cs.yield += cs.crop.baseYield;
+                cs.timeLeft = cs.crop.baseTime; // reset
+            }
+
+            // Decrement fertilizer durations and remove expired ones
+            cs.activeFertilizers.removeIf(af -> --af.remainingDuration <= 0);
+        }
+    }
+
+    public void applyFertilizer(Fertilizer fert) {
+        totalCost += fert.cost;
+        for (CropState cs : cropStates) {
+            fert.apply(cs);  // assumes Fertilizer.apply(CropState) is implemented
+        }
+        plan.add(fert);
+    }
+
+    public void calculateYield() {
+        for (CropState cs : cropStates) {
+            // Decrement fertilizer durations
+            Iterator<ActiveFertilizer> it = cs.activeFertilizers.iterator();
+            while (it.hasNext()) {
+                ActiveFertilizer af = it.next();
+                af.remainingDuration--;
+                if (af.remainingDuration <= 0) {
+                    it.remove();
+                }
+            }
+
+            // Decrement time left
+            cs.timeLeft--;
+
+            // Harvest if ready
+            if (cs.timeLeft <= 0) {
+                int yield = cs.crop.baseYield;
+
+                for (ActiveFertilizer af : cs.activeFertilizers) {
+                    FertilizerEffect effect = af.fertilizer.effect;
+
+                    // Yield boost if applicable type
+                    if (effect.isYieldBoost &&
+                            (effect.applicableType == null || effect.applicableType.equals(cs.crop.type))) {
+                        yield += 1;
+                    }
+                }
+
+                cs.yield += yield;
+
+                // Reset for next cycle
+                cs.timeLeft = cs.crop.baseTime;
+            }
+        }
+    }
+}
