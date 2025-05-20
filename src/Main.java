@@ -3,11 +3,15 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         List<Crop> crops = Arrays.asList( // You may only plant three crops at a time
-                new Crop("Herb", 1, 2, "Plant"),
+                // new Crop("Herb", 1, 2, "Plant"),
                 // new Crop("Honey", 1, 2, "Insect"),
                 new Crop("Godbug", 3, 8, "Insect"),
                 // new Crop("Blue Mushroom", 2, 1, "Mushroom")
-                new Crop("Mandragora", 3, 4, "Mushroom")
+                // new Crop("Mandragora", 3, 4, "Mushroom"),
+                new Crop("Might Seed", 2, 4, "Plant"),
+                // new Crop("Needleberry", 1, 20, "Plant"),
+                // new Crop("Flashbug", 2, 4, "Insect"),
+                new Crop("Devil's Blight", 3, 4, "Mushroom")
         );
 
         List<Fertilizer> fertilizers = Arrays.asList(
