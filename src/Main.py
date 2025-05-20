@@ -23,7 +23,7 @@ def main():
         Fertilizer("None", 0, 0, "None")
     ]
 
-    max_cycles = 25
+    max_cycles = 15
 
     print(f"\nOptimal Fertilizer Plan over {max_cycles} cycles:")
 
@@ -40,7 +40,7 @@ def main():
         total_yield += crop.yield_amount
 
     print(f"\nTotal Yield: {total_yield}")
-    print(f"Total Cost: {result.total_cost}")
+    print(f"Total Cost: {result.totalCost}")
     # print(f"Cost per Unit yielded: {result.total_cost / max(1, total_yield):.2f}")
 
 if __name__ == "__main__":
