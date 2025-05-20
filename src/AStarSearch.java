@@ -27,14 +27,22 @@ public class AStarSearch {
             }
 
             for (Fertilizer fert : fertilizers) {
-                List<Crop> nextCrops = copyCrops(current.crops);
                 List<ActiveFertilizer> nextActive = copyActiveFerts(current.activeFertilizers);
+
+                // Check if there are already applied fertilizers, and if so, check the fertilizer being applied in this state is the same, if not then apply anyway
+                boolean alreadyActive = nextActive.stream()
+                        .anyMatch(a -> a.fertilizer.name.equals(fert.name) && a.remainingDuration > 0);
+
+                if (!fert.name.equals("None") && alreadyActive) continue;
+
+                List<Crop> nextCrops = copyCrops(current.crops);
 
                 if (!fert.name.equals("None")) {
                     applyFertilizer(nextCrops, fert, nextActive);
                 }
 
                 simulateCycle(nextCrops, nextActive);
+
                 List<Fertilizer> nextPlan = new ArrayList<>(current.plan);
                 nextPlan.add(fert);
 
@@ -49,8 +57,8 @@ public class AStarSearch {
                         .count();
 
                 // int heuristic = -(yieldScore * 1000 + affectedTypes * 900); // small bonus for diversity
-                // int heuristic = -(yieldScore * affectedTypes * 1000); // multiply bonus for diversity
-                int heuristic = -(yieldScore * 1000 + (int)Math.pow(affectedTypes, 2) * 1500); // exponentially increase bonus for diversity
+                // int heuristic = -(yieldScore + (affectedTypes * 10000)); // dramatically multiply bonus for diversity
+                int heuristic = -(yieldScore + (int)Math.pow(affectedTypes, 2) * 1000); // exponentially increase bonus for diversity
 
                 int fCost = cost + heuristic;
 
@@ -91,13 +99,13 @@ public class AStarSearch {
                     growthTime = 1;
                 }
                 if (effect.equals("BoostPlant") && crop.type.equals("Plant")) {
-                    yieldBonus += crop.baseYield + (crop.baseYield / 2);
+                    yieldBonus += crop.baseYield / 2;
                 }
                 if (effect.equals("BoostInsect") && crop.type.equals("Insect")) {
-                    yieldBonus += crop.baseYield + (crop.baseYield / 2);
+                    yieldBonus += crop.baseYield / 2;
                 }
                 if (effect.equals("BoostMushroom") && crop.type.equals("Mushroom")) {
-                    yieldBonus += crop.baseYield + (crop.baseYield / 2);
+                    yieldBonus += crop.baseYield / 2;
                 }
             }
 

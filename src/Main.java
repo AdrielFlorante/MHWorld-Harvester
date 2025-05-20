@@ -3,15 +3,15 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         List<Crop> crops = Arrays.asList( // You may only plant three crops at a time
-                new Crop("Herb", 2, 1, "Plant"),
-                // new Crop("Honey", 2, 1, "Insect"),
+                new Crop("Herb", 1, 2, "Plant"),
+                // new Crop("Honey", 1, 2, "Insect"),
                 new Crop("Godbug", 3, 8, "Insect"),
                 // new Crop("Blue Mushroom", 2, 1, "Mushroom")
                 new Crop("Mandragora", 3, 4, "Mushroom")
         );
 
         List<Fertilizer> fertilizers = Arrays.asList(
-                // new Fertilizer("Soft Soil", 5, 300, "SoftSoil"),
+                new Fertilizer("Soft Soil", 5, 300, "SoftSoil"),
                 new Fertilizer("Catalyst", 4, 150, "Catalyst"),
                 new Fertilizer("Ancient Catalyst", 4, 250, "AncientCatalyst"),
                 new Fertilizer("Plant Fertilizer", 3, 50, "BoostPlant"),
@@ -20,7 +20,8 @@ public class Main {
                 new Fertilizer("None", 0, 0, "None") // We are allowed to wait out a cycle if it means saving costs
         );
 
-        int maxCycles = 15;
+        int maxCycles = 20
+                ;
 
         System.out.println("\nOptimal Fertilizer Plan over " + maxCycles + " cycles:");
 
