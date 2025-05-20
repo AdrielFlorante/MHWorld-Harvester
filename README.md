@@ -12,6 +12,7 @@ In *Monster Hunter: World*, botanical research and cultivation are key component
 - **Function**: Cultivate various items like herbs, mushrooms, and insects after unlocking the center through progression.
 - **Rules**: You can cultivate **three different crops at a time**, but only **one fertilizer can be applied per cycle** using Research Points.
   - Each fertilizer has different **effects**, **durations**, and **costs**, and they interact with crops in unique ways.
+  - **One cycle** is the duration of finishing **one quest**.
 
 ### Research Points
 - Earned through quests, gathering, and general gameplay.
