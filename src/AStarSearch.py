@@ -23,14 +23,14 @@ class Fertilizer:
 @dataclass
 class Crop:
     name: str
-    baseYield: int
-    baseGrowthTime: int
+    base_yield: int
+    base_growth_time: int
     type: str
-    currentGrowth: int = 0
-    yield_: int = 0
+    current_growth: int = 0
+    yield_amount: int = 0
 
     def copy(self):
-        return Crop(self.name, self.baseYield, self.baseGrowthTime, self.type, self.currentGrowth, self.yield_)
+        return Crop(self.name, self.base_yield, self.base_growth_time, self.type, self.current_growth, self.yield_amount)
 
 
 @dataclass
@@ -134,7 +134,7 @@ class AStarSearch:
     @staticmethod
     def simulateCycle(crops: List[Crop], activeFerts: List[ActiveFertilizer]):
         for crop in crops:
-            growthTime = crop.baseGrowthTime
+            growthTime = crop.base_growth_time
             yieldBonus = 0
 
             for af in activeFerts:
@@ -147,16 +147,16 @@ class AStarSearch:
                 if effect == "AncientCatalyst":
                     growthTime = 1
                 if effect == "BoostPlant" and crop.type == "Plant":
-                    yieldBonus += crop.baseYield // 2
+                    yieldBonus += crop.base_yield // 2
                 if effect == "BoostInsect" and crop.type == "Insect":
-                    yieldBonus += crop.baseYield // 2
+                    yieldBonus += crop.base_yield // 2
                 if effect == "BoostMushroom" and crop.type == "Mushroom":
-                    yieldBonus += crop.baseYield // 2
+                    yieldBonus += crop.base_yield // 2
 
-            crop.currentGrowth += 1
-            if crop.currentGrowth >= growthTime:
-                crop.yield_ += crop.baseYield + yieldBonus
-                crop.currentGrowth = 0
+            crop.current_growth += 1
+            if crop.current_growth >= growthTime:
+                crop.yield_amount += crop.base_yield + yieldBonus
+                crop.current_growth = 0
 
         # activeFerts[:] = [f for f in activeFerts if (f.remainingDuration := f.remainingDuration - 1) > 0]
         new_active_ferts = []
@@ -176,10 +176,10 @@ class AStarSearch:
 
     @staticmethod
     def totalYield(crops: List[Crop]) -> int:
-        return sum(c.yield_ for c in crops)
+        return sum(c.yield_amount for c in crops)
 
     @staticmethod
     def generateStateKey(crops: List[Crop], activeFerts: List[ActiveFertilizer]) -> str:
-        crop_key = ';'.join(f"{c.name}:{c.currentGrowth}:{c.yield_}" for c in crops)
+        crop_key = ';'.join(f"{c.name}:{c.current_growth}:{c.yield_amount}" for c in crops)
         fert_key = ';'.join(f"{af.fertilizer.name}:{af.remainingDuration}" for af in activeFerts)
         return crop_key + '|' + fert_key

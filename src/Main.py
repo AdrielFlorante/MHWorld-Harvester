@@ -23,7 +23,7 @@ def main():
         Fertilizer("None", 0, 0, "None")
     ]
 
-    max_cycles = 20
+    max_cycles = 25
 
     print(f"\nOptimal Fertilizer Plan over {max_cycles} cycles:")
 
@@ -35,7 +35,7 @@ def main():
 
     print("\nFinal Yields:")
     total_yield = 0
-    for crop in result.final_crops:
+    for crop in result.finalCrops:
         print(f"- {crop.name}: {crop.yield_amount}")
         total_yield += crop.yield_amount
 
