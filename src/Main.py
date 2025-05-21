@@ -1,10 +1,11 @@
-# main.py
+# Main.java
 
+import sys
 from Crop import Crop
 from Fertilizer import Fertilizer
 from AStarSearch import AStarSearch  # Assuming your A* logic is in astar_search.py
 
-def main():
+def run_console():
     # Define the crops (only 3 crops may be planted at a time)
     crops = [
         Crop("Godbug", 3, 8, "Insect"),
@@ -43,5 +44,12 @@ def main():
     print(f"Total Cost: {result.totalCost}")
     # print(f"Cost per Unit yielded: {result.total_cost / max(1, total_yield):.2f}")
 
+def run_ui():
+    from ui import run_ui_app
+    run_ui_app()
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "ui":
+        run_ui()
+    else:
+        run_console()
