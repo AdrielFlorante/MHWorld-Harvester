@@ -53,9 +53,22 @@ class MainWindow(QWidget):
         """)
 
         self.crops_list = [
-            Crop("Godbug", 3, 8, "Insect"),
+            Crop("Herb", 1, 2, "Plant"),
+            Crop("Nullberry", 2, 4, "Plant"),
             Crop("Might Seed", 2, 4, "Plant"),
-            Crop("Devil's Blight", 3, 4, "Mushroom")
+            Crop("Dragonfall Berry", 3, 6, "Plant"),
+            Crop("Needleberry", 1, 20, "Plant"),
+            Crop("Honey", 1, 2, "Insect"),
+            Crop("Flashbug", 2, 4, "Insect"),
+            Crop("Godbug", 3, 8, "Insect"),
+            Crop("Bitterbug", 1, 2, "Insect"),
+            Crop("Thunderbug", 1, 2, "Insect"),
+            Crop("Devil's Blight", 3, 4, "Mushroom"),
+            Crop("Exciteshroom", 2, 4, "Mushroom"),
+            Crop("Toadstool", 1, 2, "Mushroom"),
+            Crop("Mandragora", 2, 4, "Mushroom"),
+            Crop("Blue Mushroom", 1, 2, "Mushroom")
+
         ]
 
         self.fertilizers = [
